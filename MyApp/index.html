@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор среднего балла</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        label {
+            display: block;
+            margin: 10px 0;
+        }
+        input {
+            padding: 8px;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Калькулятор среднего балла</h1>
+
+    <label for="grades">Введите оценки (через запятую):</label>
+    <input type="text" id="grades" placeholder="например, 70, 70, 70">
+
+    <label for="n-count">Количество пропусков (не был):</label>
+    <input type="number" id="n-count" placeholder="например, 1" min="0">
+
+    <button onclick="calculateAverage()">Рассчитать</button>
+
+    <div class="result" id="result"></div>
+
+    <script>
+        function calculateAverage() {
+            // Получаем значения из полей
+            let gradesInput = document.getElementById("grades").value;
+            let nCount = document.getElementById("n-count").value;
+
+            // Преобразуем строки в массив чисел
+            let grades = gradesInput.split(",").map(Number);
+            let totalScore = grades.reduce((acc, score) => acc + score, 0);
+            let maxPossibleScore = grades.length * 100; // Максимально возможный балл
+
+            // Отнимаем 30 баллов за каждый пропуск
+            let penalty = nCount * 30;
+            totalScore -= penalty;
+
+            // Средний балл
+            let average = totalScore / maxPossibleScore;
+
+            // Выводим результат
+            document.getElementById("result").innerText = `Средний балл: ${(average * 100).toFixed(2)}%`;
+        }
+    </script>
+
+</body>
+</html>
